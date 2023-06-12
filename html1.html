@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Server Status</title>
+</head>
+
+<body>
+
+  <script src="https://code.jquery.com/jquery-1.6.4.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#loader").show(); // 显示加载动画
+      $.getJSON('https://api.mcsrvstat.us/2/mc.mingpixel.net', function(data) {
+        var players = data.players.online;
+        var maxPlayers = data.players.max;
+        var version = data.version;
+        var IP = data.ip;
+        var software = data.software;
+        var display = '服务器状态如下：<br>在线人数：' + players +
+          '<br>最大玩家数：' + maxPlayers +
+          '<br>Minecraft 版本：' + version +
+          '<br>IP:' + IP + '<br>服务端类型:' + software;
+
+        $("#players").text(players);
+        $("#max-players").text(maxPlayers);
+        $("#version").text(version);
+        $("#ip").text(IP);
+        $("#software").text(software);
+        $("#loader").hide(); // 隐藏加载动画
+      });
+    });
+  </script>
+  <style>
+    /* 拟物化按钮样式 */
+    .button {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #333;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.2s ease-in-out;
+    }
+    
+    .button:hover {
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+    }
+    /* 拟物化容器样式 */
+    .container {
+      padding: 20px;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+    }
+    /* 加载动画样式 */
+    #loader {
+      border: 16px solid #f3f3f3;
+      border-top: 16px solid #3498db;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      margin: auto;
+      margin-top: 50px;
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+    
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <div class="container">
+    <h1>服务器状态</h1>
+    <p>在线人数：<span id="players"></span></p>
+    <p>最大玩家数：<span id="max-players"></span></p>
+    <p>Minecraft 版本：<span id="version"></span></p>
+    <p>IP：<span id="ip"></span></p>
+    <p>服务端类型：<span id="software"></span></p>
+    <button class="button" onclick="location.reload()">刷新状态</button>
+  </div>
+  <div id="loader"></div> <!--加载动画-->
+</body>
+
+</html>
